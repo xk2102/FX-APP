@@ -56,6 +56,16 @@ export default function Ticket(props) {
     return sl;
   }
 
+  function calculateSum(direction, entry, exit, quantity, rate) {
+    if (direction === "LONG") {
+      //exitprice - entryprice
+      var sum = (exit - entry) * quantity * rate;
+    } else {
+      var sum = (entry - exit) * quantity * rate;
+    }
+    return sum;
+  }
+
   function editFills(event, what) {
     event.preventDefault();
 
@@ -96,6 +106,14 @@ export default function Ticket(props) {
           ticket.quantity,
           ticket.rate
         );
+        listOfObjects[what].sum =
+          calculateSum(
+            ticket.direction,
+            entryFill,
+            stopFill,
+            ticket.quantity,
+            ticket.rate
+          ) - ticket.commission;
       } else {
         //its an exit hit
         listOfObjects[
@@ -107,6 +125,14 @@ export default function Ticket(props) {
           ticket.quantity,
           ticket.rate
         );
+        listOfObjects[what].sum =
+          calculateSum(
+            ticket.direction,
+            entryFill,
+            profitTargetFill,
+            ticket.quantity,
+            ticket.rate
+          ) - ticket.commission;
       }
     }
 

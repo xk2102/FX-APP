@@ -102,7 +102,8 @@ export default function App() {
     units: 0,
     contracts: 0,
     quantity: 0,
-    commission: 0
+    commission: 0,
+    sum: 0
   });
   const [listOfTickets, setListOfTickets] = useState([]);
 
@@ -279,7 +280,8 @@ export default function App() {
         quantity: q,
         profitTargetOrder: p,
         errorInCreateTicket: "",
-        commission: com
+        commission: com,
+        sum: 0
       }));
     }
   }
@@ -309,7 +311,8 @@ export default function App() {
       units: 0,
       contracts: 0,
       quantity: 0,
-      commission: 0
+      commission: 0,
+      sum: 0
     }));
   }
 
