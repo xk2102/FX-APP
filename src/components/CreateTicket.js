@@ -9,7 +9,8 @@ export default function CreateTicket(props) {
     createTicket,
     saveTicket,
     resetTicket,
-    handleSomething
+    handleSomething,
+    handleMoneyManagement
   } = props;
   return (
     <div className="CreateTicket">
@@ -21,7 +22,7 @@ export default function CreateTicket(props) {
             step="1"
             placeholder="setTradingEquity..."
             value={moneyManagement.tradingEquity}
-            onChange={(event) => handleSomething(event, "tradingEquity")}
+            onChange={(event) => handleMoneyManagement(event, "tradingEquity")}
           ></input>
         </div>
 
@@ -32,7 +33,9 @@ export default function CreateTicket(props) {
             step="0.1"
             placeholder="setProfitToLossRatio..."
             value={moneyManagement.profitToLossRatio}
-            onChange={(event) => handleSomething(event, "profitToLossRatio")}
+            onChange={(event) =>
+              handleMoneyManagement(event, "profitToLossRatio")
+            }
           ></input>
         </div>
         <div className="field">
@@ -42,7 +45,7 @@ export default function CreateTicket(props) {
             step="1"
             placeholder="setLotSize..."
             value={moneyManagement.lotSize}
-            onChange={(event) => handleSomething(event, "lotSize")}
+            onChange={(event) => handleMoneyManagement(event, "lotSize")}
           ></input>
         </div>
 
@@ -53,7 +56,7 @@ export default function CreateTicket(props) {
             step="0.0001"
             placeholder="setRiskPerTrade..."
             value={moneyManagement.riskPerTrade}
-            onChange={(event) => handleSomething(event, "riskPerTrade")}
+            onChange={(event) => handleMoneyManagement(event, "riskPerTrade")}
           ></input>
         </div>
 

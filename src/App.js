@@ -129,34 +129,60 @@ export default function App() {
     console.log(listOfTickets);
   }, [listOfTickets]);
   useEffect(() => {
-    // console.log(moneyManagement);
+    console.log(moneyManagement);
   }, [moneyManagement]);
 
-  function handleSomething(event, what, what2) {
+  function handleMoneyManagement(event, what) {
     if (what === "tradingEquity") {
       setMoneyManagement((prevMoneyManagement) => ({
         ...prevMoneyManagement,
-        tradingEquity: event.target.value
+        [what]: parseInt(event.target.value, 10)
       }));
     }
     if (what === "profitToLossRatio") {
       setMoneyManagement((prevMoneyManagement) => ({
         ...prevMoneyManagement,
-        profitToLossRatio: event.target.value
+        [what]: parseInt(event.target.value, 10)
       }));
     }
     if (what === "lotSize") {
       setMoneyManagement((prevMoneyManagement) => ({
         ...prevMoneyManagement,
-        lotSize: event.target.value
+        [what]: parseInt(event.target.value, 10)
       }));
     }
     if (what === "riskPerTrade") {
       setMoneyManagement((prevMoneyManagement) => ({
         ...prevMoneyManagement,
-        riskPerTrade: event.target.value
+        [what]: parseFloat(event.target.value)
       }));
     }
+  }
+  function handleSomething(event, what, what2) {
+    // if (what === "tradingEquity") {
+    //   setMoneyManagement((prevMoneyManagement) => ({
+    //     ...prevMoneyManagement,
+    //     tradingEquity: event.target.value
+    //   }));
+    // }
+    // if (what === "profitToLossRatio") {
+    //   setMoneyManagement((prevMoneyManagement) => ({
+    //     ...prevMoneyManagement,
+    //     profitToLossRatio: event.target.value
+    //   }));
+    // }
+    // if (what === "lotSize") {
+    //   setMoneyManagement((prevMoneyManagement) => ({
+    //     ...prevMoneyManagement,
+    //     lotSize: event.target.value
+    //   }));
+    // }
+    // if (what === "riskPerTrade") {
+    //   setMoneyManagement((prevMoneyManagement) => ({
+    //     ...prevMoneyManagement,
+    //     riskPerTrade: event.target.value
+    //   }));
+    // }
     if (what === "symbol") {
       setTicket((prevTicket) => ({
         ...prevTicket,
@@ -339,6 +365,7 @@ export default function App() {
                 saveTicket={saveTicket}
                 resetTicket={resetTicket}
                 handleSomething={handleSomething}
+                handleMoneyManagement={handleMoneyManagement}
               />
             )}
           />

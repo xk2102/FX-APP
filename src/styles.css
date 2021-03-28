@@ -93,9 +93,7 @@ p {
   font-weight: 600;
 }
 
-/* CREATE TICKET */ /* CREATE TICKET */ /* CREATE TICKET */
-/* CREATE TICKET */ /* CREATE TICKET */ /* CREATE TICKET */
-/* CREATE TICKET */ /* CREATE TICKET */ /* CREATE TICKET */
+
 .field {
   /* border: 2px solid black; */
   display: flex;
@@ -146,4 +144,8 @@ button {
 button:hover {
   background-color: lightgray;
   transition: ease all 0.25s;
+}
+
+.Ticket {
+  margin-bottom: 20px;
 }

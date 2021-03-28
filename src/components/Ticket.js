@@ -151,10 +151,10 @@ export default function Ticket(props) {
           <label>PROFIT TARGET FILL: </label>
           <input
             ref={profitTargetFillFormData}
-            id="exitFill"
+            id="profitTargetFill"
             type="number"
             step="0.00001"
-            placeholder="setExitFill..."
+            placeholder="setProfitTargetFill..."
           ></input>
         </div>
 
@@ -174,10 +174,10 @@ export default function Ticket(props) {
             className="button"
             onClick={(event) => editFills(event, index)}
           >
-            SUBMIT TICKET
+            SUBMIT
           </button>
           <button type="button" onClick={() => deleteTicket(ticket.id)}>
-            DELETE TICKET
+            DELETE
           </button>
         </div>
       </form>
