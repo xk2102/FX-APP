@@ -9,7 +9,7 @@ export default function CreateTicket(props) {
     createTicket,
     saveTicket,
     resetTicket,
-    handleSomething,
+    handleTicket,
     handleMoneyManagement
   } = props;
   return (
@@ -65,7 +65,7 @@ export default function CreateTicket(props) {
           <label>SYMBOL: </label>
           <select
             value={ticket.symbol}
-            onChange={(event) => handleSomething(event, "symbol")}
+            onChange={(event) => handleTicket(event, "symbol")}
           >
             {listOfSymbols.map((symbol, index) => (
               <option value={symbol} key={index}>
@@ -79,7 +79,7 @@ export default function CreateTicket(props) {
           <label>DIRECTION: </label>
           <select
             value={ticket.direction}
-            onChange={(event) => handleSomething(event, "direction")}
+            onChange={(event) => handleTicket(event, "direction")}
           >
             <option value="LONG">LONG</option>
             <option value="SHORT">SHORT</option>
@@ -94,7 +94,7 @@ export default function CreateTicket(props) {
             step="0.00001"
             placeholder="setEntryOrder..."
             value={ticket.entryOrder}
-            onChange={(event) => handleSomething(event, "entryOrder")}
+            onChange={(event) => handleTicket(event, "entryOrder")}
           ></input>
         </div>
 
@@ -106,7 +106,7 @@ export default function CreateTicket(props) {
             step="0.00001"
             placeholder="setStopOrder..."
             value={ticket.stopOrder}
-            onChange={(event) => handleSomething(event, "stopOrder")}
+            onChange={(event) => handleTicket(event, "stopOrder")}
           ></input>
         </div>
 

@@ -158,7 +158,7 @@ export default function App() {
       }));
     }
   }
-  function handleSomething(event, what, what2) {
+  function handleTicket(event, what) {
     // if (what === "tradingEquity") {
     //   setMoneyManagement((prevMoneyManagement) => ({
     //     ...prevMoneyManagement,
@@ -186,25 +186,25 @@ export default function App() {
     if (what === "symbol") {
       setTicket((prevTicket) => ({
         ...prevTicket,
-        symbol: event.target.value
+        [what]: event.target.value
       }));
     }
     if (what === "direction") {
       setTicket((prevTicket) => ({
         ...prevTicket,
-        direction: event.target.value
+        [what]: event.target.value
       }));
     }
     if (what === "entryOrder") {
       setTicket((prevTicket) => ({
         ...prevTicket,
-        entryOrder: parseFloat(event.target.value)
+        [what]: parseFloat(event.target.value)
       }));
     }
     if (what === "stopOrder") {
       setTicket((prevTicket) => ({
         ...prevTicket,
-        stopOrder: parseFloat(event.target.value)
+        [what]: parseFloat(event.target.value)
       }));
     }
   }
@@ -364,7 +364,7 @@ export default function App() {
                 createTicket={createTicket}
                 saveTicket={saveTicket}
                 resetTicket={resetTicket}
-                handleSomething={handleSomething}
+                handleTicket={handleTicket}
                 handleMoneyManagement={handleMoneyManagement}
               />
             )}
@@ -375,7 +375,7 @@ export default function App() {
               <ViewTickets
                 listOfTickets={listOfTickets}
                 setListOfTickets={setListOfTickets}
-                handleSomething={handleSomething}
+                handleTicket={handleTicket}
                 deleteTicket={deleteTicket}
               />
             )}
