@@ -156,6 +156,10 @@ export default function CreateTicket(props) {
             <label>PROFIT TARGET ORDER: </label>
             <span id="spanInResult">{ticket.profitTargetOrder}</span>
           </div>
+          <div className="field">
+            <label>COMMISSION: </label>
+            <span id="spanInResult">{ticket.commission} $</span>
+          </div>
         </>
       )}
 

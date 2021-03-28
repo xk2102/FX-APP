@@ -101,7 +101,8 @@ export default function App() {
     rate: 0,
     units: 0,
     contracts: 0,
-    quantity: 0
+    quantity: 0,
+    commission: 0
   });
   const [listOfTickets, setListOfTickets] = useState([]);
 
@@ -159,30 +160,6 @@ export default function App() {
     }
   }
   function handleTicket(event, what) {
-    // if (what === "tradingEquity") {
-    //   setMoneyManagement((prevMoneyManagement) => ({
-    //     ...prevMoneyManagement,
-    //     tradingEquity: event.target.value
-    //   }));
-    // }
-    // if (what === "profitToLossRatio") {
-    //   setMoneyManagement((prevMoneyManagement) => ({
-    //     ...prevMoneyManagement,
-    //     profitToLossRatio: event.target.value
-    //   }));
-    // }
-    // if (what === "lotSize") {
-    //   setMoneyManagement((prevMoneyManagement) => ({
-    //     ...prevMoneyManagement,
-    //     lotSize: event.target.value
-    //   }));
-    // }
-    // if (what === "riskPerTrade") {
-    //   setMoneyManagement((prevMoneyManagement) => ({
-    //     ...prevMoneyManagement,
-    //     riskPerTrade: event.target.value
-    //   }));
-    // }
     if (what === "symbol") {
       setTicket((prevTicket) => ({
         ...prevTicket,
@@ -254,6 +231,11 @@ export default function App() {
       return parseFloat(p);
     }
   }
+  function calculateCommission(quantity) {
+    // MAX(2, 0.2*0.0001*J573))
+    let com = 2 * Math.max(2, 0.2 * 0.0001 * quantity);
+    return com;
+  }
 
   function validate() {
     var errorInCreateTicket = "";
@@ -285,6 +267,7 @@ export default function App() {
       let c = calculateContracts(u);
       let q = calculateQuantity(c);
       let p = calculateProfitTargetOrder(q, r);
+      let com = calculateCommission(q);
 
       setTicket((prevTicket) => ({
         ...prevTicket,
@@ -295,7 +278,8 @@ export default function App() {
         contracts: c,
         quantity: q,
         profitTargetOrder: p,
-        errorInCreateTicket: ""
+        errorInCreateTicket: "",
+        commission: com
       }));
     }
   }
@@ -324,7 +308,8 @@ export default function App() {
       rate: 0,
       units: 0,
       contracts: 0,
-      quantity: 0
+      quantity: 0,
+      commission: 0
     }));
   }
 

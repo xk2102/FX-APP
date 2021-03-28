@@ -7,7 +7,7 @@ export default function ViewTickets(props) {
     <div className="ViewTickets">
       {listOfTickets.length === 0 && (
         <span>
-          <strong>CREATE</strong> tickets to view them here!
+          <strong>SAVE</strong> tickets to view them here!
         </span>
       )}
 
