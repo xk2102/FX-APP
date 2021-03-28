@@ -90,11 +90,13 @@ export default function App() {
     stopOrder: 1.40099,
     stopFill: 0,
     stopSlippage: 0,
-    exitOrder: 0,
-    exitFill: 0,
-    exitSlippage: 0,
-    errorMessage: "",
-    isCalculated: false,
+    profitTargetOrder: 0,
+    profitTargetFill: 0,
+    profitTargetSlippage: 0,
+    errorInCreateTicket: "",
+    errorInEditFills: "",
+    ticketIsCreated: false,
+    ticketIsSubmitted: false,
     distance: 0,
     rate: 0,
     units: 0,
@@ -179,29 +181,6 @@ export default function App() {
         stopOrder: parseFloat(event.target.value)
       }));
     }
-    // if (what === "entryFill") {
-    //   event.preventDefault();
-    //   let listOfObjects = [...listOfTickets];
-    //   console.log(event.target.value);
-    // }
-  }
-
-  function validate() {
-    var errorMessage = "";
-
-    if (
-      (ticket.direction === "LONG" && ticket.entryOrder < ticket.stopOrder) ||
-      (ticket.direction === "SHORT" && ticket.entryOrder > ticket.stopOrder)
-    ) {
-      errorMessage = "PLEASE CHECH FOR ERRORS!";
-      setTicket((prevTicket) => ({
-        ...prevTicket,
-        errorMessage: errorMessage,
-        isCalculated: false
-      }));
-      return false;
-    }
-    return true;
   }
 
   function caclulateDistance() {
@@ -228,26 +207,44 @@ export default function App() {
     let q = contracts * moneyManagement.lotSize;
     return q;
   }
-  function calculateExitOrder(quantity, rate) {
+  function calculateProfitTargetOrder(quantity, rate) {
     if (ticket.direction === "LONG") {
-      let e = (
+      let p = (
         ticket.entryOrder +
         (moneyManagement.tradingEquity *
           moneyManagement.riskPerTrade *
           moneyManagement.profitToLossRatio) /
           (quantity * rate)
       ).toFixed(5);
-      return e;
+      return parseFloat(p);
     } else {
-      let e = (
+      let p = (
         ticket.entryOrder -
         (moneyManagement.tradingEquity *
           moneyManagement.riskPerTrade *
           moneyManagement.profitToLossRatio) /
           (quantity * rate)
       ).toFixed(5);
-      return e;
+      return parseFloat(p);
     }
+  }
+
+  function validate() {
+    var errorInCreateTicket = "";
+
+    if (
+      (ticket.direction === "LONG" && ticket.entryOrder < ticket.stopOrder) ||
+      (ticket.direction === "SHORT" && ticket.entryOrder > ticket.stopOrder)
+    ) {
+      errorInCreateTicket = "PLEASE CHECH FOR ERRORS!";
+      setTicket((prevTicket) => ({
+        ...prevTicket,
+        errorInCreateTicket: errorInCreateTicket,
+        ticketIsCreated: false
+      }));
+      return false;
+    }
+    return true;
   }
 
   function createTicket(event) {
@@ -261,18 +258,18 @@ export default function App() {
       let u = calculateUnits(d, r);
       let c = calculateContracts(u);
       let q = calculateQuantity(c);
-      let e = calculateExitOrder(q, r);
+      let p = calculateProfitTargetOrder(q, r);
 
       setTicket((prevTicket) => ({
         ...prevTicket,
-        isCalculated: true,
+        ticketIsCreated: true,
         distance: d,
         rate: r,
         units: u,
         contracts: c,
         quantity: q,
-        exitOrder: e,
-        errorMessage: ""
+        profitTargetOrder: p,
+        errorInCreateTicket: ""
       }));
     }
   }
@@ -289,11 +286,14 @@ export default function App() {
       stopOrder: 1.40099,
       stopFill: 0,
       stopSlippage: 0,
-      exitOrder: 0,
-      exitFill: 0,
-      exitSlippage: 0,
-      errorMessage: "",
-      isCalculated: false,
+      profitTargetOrder: 0,
+      profitTargetFill: 0,
+      profitTargetSlippage: 0,
+      errorInCreateTicket: "",
+      // not sure if needed
+      // errorInFills:"",
+      ticketIsCreated: false,
+      ticketIsSubmitted: false,
       distance: 0,
       rate: 0,
       units: 0,
@@ -303,7 +303,7 @@ export default function App() {
   }
 
   function saveTicket() {
-    if (ticket.isCalculated) {
+    if (ticket.ticketIsCreated) {
       setListOfTickets(() => [
         ...listOfTickets,
         { ...moneyManagement, ...ticket, id: nanoid(5) }

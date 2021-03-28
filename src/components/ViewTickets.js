@@ -12,16 +12,19 @@ export default function ViewTickets(props) {
       )}
 
       {listOfTickets.length > 0 &&
-        listOfTickets.map((ticket, index) => (
-          <Ticket
-            index={index}
-            key={ticket.id}
-            ticket={ticket}
-            listOfTickets={listOfTickets}
-            setListOfTickets={setListOfTickets}
-            deleteTicket={deleteTicket}
-          />
-        ))}
+        listOfTickets.map(
+          (ticket, index) =>
+            !ticket.ticketIsSubmitted && (
+              <Ticket
+                index={index}
+                key={ticket.id}
+                ticket={ticket}
+                listOfTickets={listOfTickets}
+                setListOfTickets={setListOfTickets}
+                deleteTicket={deleteTicket}
+              />
+            )
+        )}
     </div>
   );
 }

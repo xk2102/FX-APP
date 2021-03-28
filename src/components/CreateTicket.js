@@ -114,7 +114,7 @@ export default function CreateTicket(props) {
               fontWeight: "bold"
             }}
           >
-            {ticket.errorMessage}
+            {ticket.errorInCreateTicket}
           </label>
         </div>
 
@@ -127,7 +127,7 @@ export default function CreateTicket(props) {
         </button>
       </form>
 
-      {ticket.isCalculated && (
+      {ticket.ticketIsCreated && (
         <>
           <div className="field">
             <label>DISTANCE: </label>
@@ -150,8 +150,8 @@ export default function CreateTicket(props) {
             <span id="spanInResult">{ticket.quantity}</span>
           </div>
           <div className="field">
-            <label>EXIT PRICE: </label>
-            <span id="spanInResult">{ticket.exitPrice}</span>
+            <label>PROFIT TARGET ORDER: </label>
+            <span id="spanInResult">{ticket.profitTargetOrder}</span>
           </div>
         </>
       )}

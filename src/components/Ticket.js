@@ -11,33 +11,108 @@ export default function Ticket(props) {
 
   const entryFillFormData = useRef();
   const stopFillFormData = useRef();
-  const exitFillFormData = useRef();
+  const profitTargetFillFormData = useRef();
+
+  function calculateEntrySlippage(
+    direction,
+    entryOrder,
+    entryFill,
+    quantity,
+    rate
+  ) {
+    if (direction === "LONG") {
+      var sl = (entryOrder - entryFill) * quantity * rate;
+    } else {
+      var sl = (entryFill - entryOrder) * quantity * rate;
+    }
+    return sl;
+  }
+  function calculateStopSlippage(
+    direction,
+    stopOrder,
+    stopFill,
+    quantity,
+    rate
+  ) {
+    if (direction === "LONG") {
+      var sl = (stopFill - stopOrder) * quantity * rate;
+    } else {
+      var sl = (stopOrder - stopFill) * quantity * rate;
+    }
+    return sl;
+  }
+  function calculateProfitTargetSlippage(
+    direction,
+    profitTargetOrder,
+    profitTargetFill,
+    quantity,
+    rate
+  ) {
+    if (direction === "LONG") {
+      var sl = (profitTargetFill - profitTargetOrder) * quantity * rate;
+    } else {
+      var sl = (profitTargetOrder - profitTargetFill) * quantity * rate;
+    }
+    return sl;
+  }
 
   function editFills(event, what) {
     event.preventDefault();
-    // console.log(what);
-    // console.log(entryFillFormData.current.value);
-    // console.log(stopFillFormData.current.value);
-    // console.log(exitFillFormData.current.value);
 
     let entryFill = parseFloat(entryFillFormData.current.value);
     let stopFill = parseFloat(stopFillFormData.current.value);
-    let exitFill = parseFloat(exitFillFormData.current.value);
-
+    let profitTargetFill = parseFloat(profitTargetFillFormData.current.value);
     let listOfObjects = [...listOfTickets];
-    listOfObjects[what].entryFill = entryFill;
-    if (stopFill !== "") {
-      listOfObjects[what].stopFill = stopFill;
-    }
-    if (exitFill !== "") {
-      listOfObjects[what].exitFill = exitFill;
-    }
 
-    if (ticket.direction === "LONG") {
+    // VALIDATE
+    // entryFill should always be filled
+    // one of stopFill and exitFill should be filled
+    if (
+      isNaN(entryFill) ||
+      (isNaN(stopFill) && isNaN(profitTargetFill)) ||
+      (!isNaN(stopFill) && !isNaN(profitTargetFill))
+    ) {
+      listOfObjects[what].errorInEditFills = "ERROR!";
     } else {
+      listOfObjects[what].errorInEditFills = "";
+      listOfObjects[what].entryFill = entryFill;
+      listOfObjects[what].stopFill = stopFill;
+      listOfObjects[what].profitTargetFill = profitTargetFill;
+
+      listOfObjects[what].entrySlippage = calculateEntrySlippage(
+        ticket.direction,
+        ticket.entryOrder,
+        entryFill,
+        ticket.quantity,
+        ticket.rate
+      );
+
+      if (isNaN(profitTargetFill)) {
+        //its a stop hit
+        listOfObjects[what].stopSlippage = calculateStopSlippage(
+          ticket.direction,
+          ticket.stopOrder,
+          stopFill,
+          ticket.quantity,
+          ticket.rate
+        );
+      } else {
+        //its an exit hit
+        listOfObjects[
+          what
+        ].profitTargetSlippage = calculateProfitTargetSlippage(
+          ticket.direction,
+          ticket.exitOrder,
+          profitTargetFill,
+          ticket.quantity,
+          ticket.rate
+        );
+      }
     }
 
     setListOfTickets(listOfObjects);
+
+    //deleteTicket(ticket.id);
   }
 
   return (
@@ -45,7 +120,8 @@ export default function Ticket(props) {
       <p>
         <strong> 🠶 </strong>
         {ticket.date} - {ticket.symbol} - {ticket.direction} - {ticket.quantity}{" "}
-        -{ticket.entryOrder} - {ticket.stopOrder} - {ticket.exitPrice} {""}
+        -{ticket.entryOrder} - {ticket.stopOrder} - {ticket.profitTargetOrder}{" "}
+        {""}
       </p>
 
       <form>
@@ -72,14 +148,25 @@ export default function Ticket(props) {
           ></input>
         </div>
         <div className="field">
-          <label>EXIT FILL: </label>
+          <label>PROFIT TARGET FILL: </label>
           <input
-            ref={exitFillFormData}
+            ref={profitTargetFillFormData}
             id="exitFill"
             type="number"
             step="0.00001"
             placeholder="setExitFill..."
           ></input>
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <label
+            style={{
+              color: "red",
+              fontWeight: "bold"
+            }}
+          >
+            {ticket.errorInEditFills}
+          </label>
         </div>
 
         <div className="buttons">
