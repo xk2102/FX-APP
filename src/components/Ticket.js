@@ -204,6 +204,8 @@ export default function Ticket(props) {
           </label>
         </div>
 
+        {ticket.sum !== 0 && <hr></hr>}
+
         {ticket.entrySlippage < 0 && (
           <div className="field">
             <label>ENTRY SLIPPAGE: </label>
