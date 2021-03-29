@@ -37,6 +37,7 @@ p {
 
 .NavBar {
   border: 2px solid black;
+  border-radius: 25px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -47,6 +48,7 @@ p {
 
 .NavItem {
   /* border: 2px solid black; */
+  /* border-radius: 50px; */
   width: 25%;
   min-width: 100px;
   text-align: center;
@@ -62,12 +64,13 @@ p {
 }
 .NavItem.active a {
   font-weight: 600;
-  font-size: 1rem;
-  transition: ease all 0.1s;
+  font-size: 1.1rem;
+  transition: ease all 0.5s;
 }
 
 .NavItem:hover {
-  background-color: lightgray;
+  color: lightgray;
+  font-weight: 600;
   transition: ease all 0.25s;
 }
 
@@ -93,7 +96,6 @@ p {
   font-weight: 600;
 }
 
-
 .field {
   /* border: 2px solid black; */
   display: flex;
@@ -107,8 +109,8 @@ p {
 }
 .field input,
 select,
-#spanInResult {
-  /* border: 2px solid grey; */
+#spanInField {
+  /* border: 2px solid black; */
   border: 0px;
   width: 50%;
   font-family: "Titillium Web", sans-serif;
@@ -118,14 +120,14 @@ select,
 
 /* Remove Arrows/Spinners from input number */
 /* Chrome, Safari, Edge, Opera */
-.CreateTicket input::-webkit-outer-spin-button,
-.CreateTicket input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-.CreateTicket input[type="number"] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -136,6 +138,7 @@ select,
 button {
   width: 100%;
   border: 2px solid black;
+  border-radius: 50px;
   font-family: "Titillium Web", sans-serif;
   font-size: 10pt;
   font-weight: 600;

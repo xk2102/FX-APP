@@ -66,7 +66,7 @@ export default function Ticket(props) {
     return sum;
   }
 
-  function editFills(event, what) {
+  function applyFills(event, what) {
     event.preventDefault();
 
     let entryFill = parseFloat(entryFillFormData.current.value);
@@ -82,9 +82,9 @@ export default function Ticket(props) {
       (isNaN(stopFill) && isNaN(profitTargetFill)) ||
       (!isNaN(stopFill) && !isNaN(profitTargetFill))
     ) {
-      listOfObjects[what].errorInEditFills = "ERROR!";
+      listOfObjects[what].errorInApplyFills = "ERROR!";
     } else {
-      listOfObjects[what].errorInEditFills = "";
+      listOfObjects[what].errorInApplyFills = "";
       listOfObjects[what].entryFill = entryFill;
       listOfObjects[what].stopFill = stopFill;
       listOfObjects[what].profitTargetFill = profitTargetFill;
@@ -120,7 +120,7 @@ export default function Ticket(props) {
           what
         ].profitTargetSlippage = calculateProfitTargetSlippage(
           ticket.direction,
-          ticket.exitOrder,
+          ticket.profitTargetOrder,
           profitTargetFill,
           ticket.quantity,
           ticket.rate
@@ -145,12 +145,14 @@ export default function Ticket(props) {
     <div className="Ticket">
       <p>
         <strong> 🠶 </strong>
-        {ticket.date} - {ticket.symbol} - {ticket.direction} - {ticket.quantity}{" "}
-        -{ticket.entryOrder} - {ticket.stopOrder} - {ticket.profitTargetOrder}{" "}
-        {""}
+        {ticket.date} - {ticket.symbol} - {ticket.direction} - {ticket.quantity}
       </p>
 
       <form>
+        <div className="field">
+          <label>ENTRY ORDER: </label>
+          <span id="spanInField">{ticket.entryOrder}</span>
+        </div>
         <div className="field">
           <label>ENTRY FILL: </label>
           <input
@@ -162,16 +164,23 @@ export default function Ticket(props) {
             placeholder={"setEntryFill..."}
           ></input>
         </div>
-        {/* <hr></hr> */}
+        <div className="field">
+          <label>STOP ORDER: </label>
+          <span id="spanInField">{ticket.stopOrder}</span>
+        </div>
         <div className="field">
           <label>STOP FILL: </label>
           <input
             ref={stopFillFormData}
             id="stopFill"
             type="number"
-            step="0.00001"
+            step="0.000001"
             placeholder="setStopFill..."
           ></input>
+        </div>
+        <div className="field">
+          <label>PROFIT TARGET ORDER: </label>
+          <span id="spanInField">{ticket.profitTargetOrder}</span>
         </div>
         <div className="field">
           <label>PROFIT TARGET FILL: </label>
@@ -191,19 +200,135 @@ export default function Ticket(props) {
               fontWeight: "bold"
             }}
           >
-            {ticket.errorInEditFills}
+            {ticket.errorInApplyFills}
           </label>
         </div>
+
+        {ticket.entrySlippage < 0 && (
+          <div className="field">
+            <label>ENTRY SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "red",
+                fontWeight: "bold"
+              }}
+            >
+              {ticket.entrySlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+        {ticket.entrySlippage > 0 && (
+          <div className="field">
+            <label>ENTRY SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "green",
+                fontWeight: "bold"
+              }}
+            >
+              +{ticket.entrySlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+
+        {ticket.stopSlippage < 0 && (
+          <div className="field">
+            <label>STOP SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "red",
+                fontWeight: "bold"
+              }}
+            >
+              {ticket.stopSlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+        {ticket.stopSlippage > 0 && (
+          <div className="field">
+            <label>STOP SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "green",
+                fontWeight: "bold"
+              }}
+            >
+              +{ticket.stopSlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+
+        {ticket.profitTargetSlippage < 0 && (
+          <div className="field">
+            <label>PROFIT TARGET SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "red",
+                fontWeight: "bold"
+              }}
+            >
+              {ticket.profitTargetSlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+        {ticket.profitTargetSlippage > 0 && (
+          <div className="field">
+            <label>PROFIT TARGET SLIPPAGE: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "green",
+                fontWeight: "bold"
+              }}
+            >
+              +{ticket.profitTargetSlippage.toFixed(2)} $
+            </span>
+          </div>
+        )}
+
+        {ticket.sum < 0 && (
+          <div className="field">
+            <label>TOTAL SUM: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "red",
+                fontWeight: "bold"
+              }}
+            >
+              {ticket.sum.toFixed(2)} $
+            </span>
+          </div>
+        )}
+        {ticket.sum > 0 && (
+          <div className="field">
+            <label>TOTAL SUM: </label>
+            <span
+              id="spanInField"
+              style={{
+                color: "green",
+                fontWeight: "bold"
+              }}
+            >
+              +{ticket.sum.toFixed(2)} $
+            </span>
+          </div>
+        )}
 
         <div className="buttons">
           <button
             className="button"
-            onClick={(event) => editFills(event, index)}
+            onClick={(event) => applyFills(event, index)}
           >
-            SUBMIT
+            APPLY FILLS
           </button>
           <button type="button" onClick={() => deleteTicket(ticket.id)}>
-            DELETE
+            DELETE TICKET
           </button>
         </div>
       </form>

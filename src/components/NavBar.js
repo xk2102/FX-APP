@@ -1,7 +1,9 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function NavBar() {
+export default function NavBar(props) {
+  const { listOfTickets } = props;
+  var listOfTicketsLength = listOfTickets.length;
   let location = useLocation();
   return (
     <div className="NavBar">
@@ -20,7 +22,10 @@ export default function NavBar() {
           location.pathname === "/ViewTickets" ? "NavItem active" : "NavItem"
         }
       >
-        <Link to="/ViewTickets">VIEW TICKETS</Link>
+        <Link to="/ViewTickets">
+          VIEW TICKETS{" "}
+          {listOfTicketsLength !== 0 ? `(${listOfTicketsLength})` : ""}
+        </Link>
       </div>
       <div
         className={

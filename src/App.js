@@ -94,7 +94,7 @@ export default function App() {
     profitTargetFill: 0,
     profitTargetSlippage: 0,
     errorInCreateTicket: "",
-    errorInEditFills: "",
+    errorInApplyFills: "",
     ticketIsCreated: false,
     ticketIsSubmitted: false,
     distance: 0,
@@ -303,7 +303,7 @@ export default function App() {
       profitTargetSlippage: 0,
       errorInCreateTicket: "",
       // not sure if needed
-      // errorInFills:"",
+      // errorInApplyFills:"",
       ticketIsCreated: false,
       ticketIsSubmitted: false,
       distance: 0,
@@ -337,7 +337,7 @@ export default function App() {
     <Router>
       <div className="App">
         <Header />
-        <NavBar />
+        <NavBar listOfTickets={listOfTickets} />
 
         <Switch>
           <Route exact path="/" render={() => <Info />} />

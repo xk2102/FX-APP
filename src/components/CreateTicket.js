@@ -134,31 +134,31 @@ export default function CreateTicket(props) {
         <>
           <div className="field">
             <label>DISTANCE: </label>
-            <span id="spanInResult">{ticket.distance}</span>
+            <span id="spanInField">{ticket.distance}</span>
           </div>
           <div className="field">
             <label>RATE: </label>
-            <span id="spanInResult">{ticket.rate}</span>
+            <span id="spanInField">{ticket.rate}</span>
           </div>
           <div className="field">
             <label>UNITS: </label>
-            <span id="spanInResult">{ticket.units}</span>
+            <span id="spanInField">{ticket.units}</span>
           </div>
           <div className="field">
             <label>CONTRACTS: </label>
-            <span id="spanInResult">{ticket.contracts}</span>
+            <span id="spanInField">{ticket.contracts}</span>
           </div>
           <div className="field">
             <label>QUANTITY: </label>
-            <span id="spanInResult">{ticket.quantity}</span>
+            <span id="spanInField">{ticket.quantity}</span>
           </div>
           <div className="field">
             <label>PROFIT TARGET ORDER: </label>
-            <span id="spanInResult">{ticket.profitTargetOrder}</span>
+            <span id="spanInField">{ticket.profitTargetOrder}</span>
           </div>
           <div className="field">
             <label>COMMISSION: </label>
-            <span id="spanInResult">{ticket.commission} $</span>
+            <span id="spanInField">{ticket.commission} $</span>
           </div>
         </>
       )}
