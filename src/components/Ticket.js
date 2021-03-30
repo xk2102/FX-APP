@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 
 export default function Ticket(props) {
   const {
@@ -9,9 +9,19 @@ export default function Ticket(props) {
     index
   } = props;
 
-  const entryFillFormData = useRef();
-  const stopFillFormData = useRef();
-  const profitTargetFillFormData = useRef();
+  const [fills, setFills] = useState({
+    _entryFill: 0,
+    _stopFill: 0,
+    _profitTargetFill: 0
+  });
+
+  function isZero(number) {
+    if (number === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   function calculateEntrySlippage(
     direction,
@@ -68,19 +78,23 @@ export default function Ticket(props) {
 
   function applyFills(event, what) {
     event.preventDefault();
+    let entryFill, stopFill, profitTargetFill;
 
-    let entryFill = parseFloat(entryFillFormData.current.value);
-    let stopFill = parseFloat(stopFillFormData.current.value);
-    let profitTargetFill = parseFloat(profitTargetFillFormData.current.value);
+    fills._entryFill === "" ? (entryFill = 0) : (entryFill = fills._entryFill);
+    fills._stopFill === "" ? (stopFill = 0) : (stopFill = fills._stopFill);
+    fills._profitTargetFill === ""
+      ? (profitTargetFill = 0)
+      : (profitTargetFill = fills._profitTargetFill);
+
     let listOfObjects = [...listOfTickets];
 
     // VALIDATE
     // entryFill should always be filled
     // one of stopFill and exitFill should be filled
     if (
-      isNaN(entryFill) ||
-      (isNaN(stopFill) && isNaN(profitTargetFill)) ||
-      (!isNaN(stopFill) && !isNaN(profitTargetFill))
+      isZero(entryFill) ||
+      (isZero(stopFill) && isZero(profitTargetFill)) ||
+      (!isZero(stopFill) && !isZero(profitTargetFill))
     ) {
       listOfObjects[what].errorInApplyFills = "ERROR!";
     } else {
@@ -97,7 +111,7 @@ export default function Ticket(props) {
         ticket.rate
       );
 
-      if (isNaN(profitTargetFill)) {
+      if (isZero(profitTargetFill)) {
         //its a stop hit
         listOfObjects[what].stopSlippage = calculateStopSlippage(
           ticket.direction,
@@ -167,43 +181,64 @@ export default function Ticket(props) {
           <label>ENTRY ORDER: </label>
           <span id="spanInField">{ticket.entryOrder}</span>
         </div>
+
         <div className="field">
           <label>ENTRY FILL: </label>
           <input
-            ref={entryFillFormData}
             name="entryFill"
             id="entryFill"
             type="number"
             step="0.00001"
             placeholder={"setEntryFill..."}
+            value={fills.entryFill}
+            onChange={(event) =>
+              setFills((prevFills) => ({
+                ...prevFills,
+                _entryFill: event.target.value
+              }))
+            }
           ></input>
         </div>
         <div className="field">
           <label>STOP ORDER: </label>
           <span id="spanInField">{ticket.stopOrder}</span>
         </div>
+
         <div className="field">
           <label>STOP FILL: </label>
           <input
-            ref={stopFillFormData}
             id="stopFill"
             type="number"
             step="0.000001"
             placeholder="setStopFill..."
+            value={fills.stopFill}
+            onChange={(event) =>
+              setFills((prevFills) => ({
+                ...prevFills,
+                _stopFill: event.target.value
+              }))
+            }
           ></input>
         </div>
         <div className="field">
           <label>PROFIT TARGET ORDER: </label>
           <span id="spanInField">{ticket.profitTargetOrder}</span>
         </div>
+
         <div className="field">
           <label>PROFIT TARGET FILL: </label>
           <input
-            ref={profitTargetFillFormData}
             id="profitTargetFill"
             type="number"
             step="0.00001"
             placeholder="setProfitTargetFill..."
+            value={fills.profitTargetFill}
+            onChange={(event) =>
+              setFills((prevFills) => ({
+                ...prevFills,
+                _profitTargetFill: event.target.value
+              }))
+            }
           ></input>
         </div>
 
@@ -348,6 +383,8 @@ export default function Ticket(props) {
           </button>
         </div>
       </form>
+      {fills._entryFill}
+      {fills._stopFill}
     </div>
   );
 }
