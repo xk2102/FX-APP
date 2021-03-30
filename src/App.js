@@ -103,7 +103,8 @@ export default function App() {
     contracts: 0,
     quantity: 0,
     commission: 0,
-    sum: 0
+    sum: 0,
+    totalSum: 0 
   });
   const [listOfTickets, setListOfTickets] = useState([]);
 

@@ -106,7 +106,14 @@ export default function Ticket(props) {
           ticket.quantity,
           ticket.rate
         );
-        listOfObjects[what].sum =
+        listOfObjects[what].sum = calculateSum(
+          ticket.direction,
+          entryFill,
+          stopFill,
+          ticket.quantity,
+          ticket.rate
+        );
+        listOfObjects[what].totalSum =
           calculateSum(
             ticket.direction,
             entryFill,
@@ -125,7 +132,14 @@ export default function Ticket(props) {
           ticket.quantity,
           ticket.rate
         );
-        listOfObjects[what].sum =
+        listOfObjects[what].sum = calculateSum(
+          ticket.direction,
+          entryFill,
+          profitTargetFill,
+          ticket.quantity,
+          ticket.rate
+        );
+        listOfObjects[what].totalSum =
           calculateSum(
             ticket.direction,
             entryFill,
@@ -293,7 +307,7 @@ export default function Ticket(props) {
           </div>
         )}
 
-        {ticket.sum < 0 && (
+        {ticket.totalSum < 0 && (
           <div className="field">
             <label>TOTAL SUM: </label>
             <span
@@ -303,11 +317,11 @@ export default function Ticket(props) {
                 fontWeight: "bold"
               }}
             >
-              {ticket.sum.toFixed(2)} $
+              {ticket.totalSum.toFixed(2)} $
             </span>
           </div>
         )}
-        {ticket.sum > 0 && (
+        {ticket.totalSum > 0 && (
           <div className="field">
             <label>TOTAL SUM: </label>
             <span
@@ -317,7 +331,7 @@ export default function Ticket(props) {
                 fontWeight: "bold"
               }}
             >
-              +{ticket.sum.toFixed(2)} $
+              +{ticket.totalSum.toFixed(2)} $
             </span>
           </div>
         )}
